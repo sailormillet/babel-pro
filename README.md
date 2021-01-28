@@ -56,4 +56,42 @@ var func = function func() {};
 var arr = [1, 2, 4];
 arr.includes(3);
 ```
+#### 安装webpack，打包的文件可以在浏览器运行
+
+```
+yarn add webpack webpack-cli babel-loader -D
+```
+webpack打包后发现
+ - 不压缩代码要261 KiB 
+ - 压缩代码也只是87.49 KiB
+ - 而原始的直接babel编译只要178 bytes
+
+### 优化 (按需加载)
+> 设置 .babelrc 增加useBuiltIns,useBuiltIns为usage时候必须设置corejs,@babel/polyfill默认会安装 "corejs": 2
+
+>core-js@2 中不支持新的特性了例如Array.prototype.flat()
+
+>core-js@3支持很多新特性
+```
+yarn add core-js@3 -D
+yarn remove @babel/polyfill
+```
+```
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "browsers": [
+                        "> 1%",
+                        "last 2 versions"
+                    ]
+                },
+                "useBuiltIns": "usage",
+                "corejs": 3//默认是2
+            }
+        ]
+    ]
+}
 
