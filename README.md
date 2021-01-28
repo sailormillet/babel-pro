@@ -30,5 +30,30 @@ yarn add @babel/cli @babel/core -D
 >babel会预先替我们做好了一系列的插件包
 
 ```
-@babel/preset-env
+@babel/preset-env 转化基本语法
 ```
+#### @babel/polyfill
+
+>es6新增的方法在低版本的游览器无法使用, Babel 所做的只是帮你把ES6 模块化语法转化为CommonJS 模块化语法，其中的 require exports 等是 CommonJS 在具体实现中所提供的变量。
+
+>任何实现 CommonJS 规范的环境（如 node 环境）可以直接运行这样的代码，而浏览器环境并没有实现对 CommonJS 规范的支持，所以我们需要使用打包工具（bundler）来进行打包，说的直观一点就是把所有的模块组装起来，为我们的代码做一些包裹，让它能在浏览器端使用。形成一个常规的 js 文件。打包工具有 比如 Browserify, Webpack 等
+
+src/index
+```
+import '@babel/polyfill'; // 这就是@babel/polyfill的用法
+
+let arrow = () => {
+    console.log('arrow')
+}
+let arr = [1, 2, 3]
+arr.includes(3)
+```
+打包到dist下，require浏览器运行不起来，只能node使用
+```
+"use strict";
+require("@babel/polyfill");
+var func = function func() {};
+var arr = [1, 2, 4];
+arr.includes(3);
+```
+
