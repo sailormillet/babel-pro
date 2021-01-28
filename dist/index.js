@@ -1,3 +1,3 @@
-let arrow = () => {
+let arrow = function () {
   console.log('arrow');
 };
