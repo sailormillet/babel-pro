@@ -95,3 +95,28 @@ yarn remove @babel/polyfill
     ]
 }
 
+#### 避免编译后的代码中出现重复的帮助程序，有效减少包体积 ,@babel/plugin-transform-runtime 是一个可以重复使用 Babel 注入的帮助程序，以节省代码大小的插件。@babel/plugin-transform-runtime 需要和 @babel/runtime 配合使用
+```
+yarn add @babel/plugin-transform-runtime  @babel/runtime -D
+```
+```
+src/index.js
+```
+import bbb from './other'
+let arrow = () => {
+    console.log('arrow')
+}
+let arr = [1, 2, 3]
+arr.includes(3)
+bbb()
+class App {
+
+}
+```
+src/other.js
+```
+class other{
+
+}
+```
+编译后的代码，_classCallCheck 这个方法定义了两次。一个 js 文件就定义一次。那项目中有很多文件，岂不是定义很多次。
