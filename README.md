@@ -176,25 +176,25 @@ babel-plugin-transform-arrow-functions 变成了 @babel/plugin-transform-arrow-f
 最后，如果插件名称中包含了规范名称 (-es2015-, -es3- 之类的)，一律删除。例如 babel-plugin-transform-es2015-classes 变成了 @babel/plugin-transform-classes。(这个插件我自己没有单独用过，惭愧)
 
 #### 不再支持低版本 node
-babel 7.0 开始不再支持 nodejs 0.10, 0.12, 4, 5 这四个版本，相当于要求 nodejs >= 6 (当前 nodejs LTS 是 8，要求也不算太过分吧)。
+babel 7.0 开始不再支持 nodejs 0.10, 0.12, 4, 5 这四个版本，相当于要求 nodejs >= 6 (当前 nodejs LTS 是 8)。
 
 这里的不再支持，指的是在这些低版本 node 环境中不能使用 babel 转译代码，但 babel 转译后的代码依然能在这些环境上运行，这点不要混淆。
-only 和 ignore 匹配规则的变化
+#### only 和 ignore 匹配规则的变化
 在 babel 6 时，ignore 选项如果包含 *.foo.js，实际上的含义 (转化为 glob) 是 ./**/*.foo.js，也就是当前目录 包括子目录 的所有 foo.js 结尾的文件。这可能和开发者常规的认识有悖。
 
 于是在 babel 7，相同的表达式 *.foo.js 只作用于当前目录，不作用于子目录。如果依然想作用于子目录的，就要按照 glob 的完整规范书写为 ./**/*.foo.js 才可以。only 也是相同。
 
-这个规则变化只作用于通配符，不作用于路径。所以 node_modules 依然包含所有它的子目录，而不单单只有一层。(否则全世界开发者都要爆炸)
+这个规则变化只作用于通配符，不作用于路径。所以 node_modules 依然包含所有它的子目录，而不单单只有一层。
 
-@babel/node 从 @babel/cli 中独立了
+#### @babel/node 从 @babel/cli 中独立了
 和 babel 6 不同，如果要使用 @babel/node，就必须单独安装，并添加到依赖中。
 
-babel-upgrade
+#### babel-upgrade
 在提到删除 stage-x 时候提过这个工具，它的目的是帮助用户自动化地从 babel 6 升级到 7。
 
 这款升级工具的功能包括：(这里并不列出完整列表，只列出比较重要和常用的内容)
 
-package.json
+#### package.json
 把依赖(和开发依赖)中所有的 babel-* 替换为 @babel/*
 把这些 @babel/* 依赖的版本更新为最新版 (例如 ^7.0.0)
 如果 scripts 中有使用 babel-node，自动添加 @babel/node 为开发依赖
